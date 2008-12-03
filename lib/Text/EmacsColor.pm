@@ -10,6 +10,8 @@ sub dist_file(@) {
 
 use namespace::clean -except => 'meta';
 
+our $VERSION = '0.01';
+
 has 'emacs_command' => (
     is         => 'ro',
     isa        => 'Str',
@@ -55,6 +57,45 @@ __END__
 
 =head1 NAME
 
-Text::EmacsColor -
+Text::EmacsColor - syntax-highlight code snippets with Emacs
 
-=cut
+=head1 SYNOPSIS
+
+    my $colorer = Text::EmacsColor->new;
+
+    my $html = $colorer->format(
+        'my $foo = 42', # code
+        'cperl',        # the emacs mode to use (cperl, lisp, haskell, ...)
+    );
+
+By default, emacs will exec in --batch mode.  If you want to use emacsclient
+or pass other options to emacs, specify the emacs_command initarg:
+
+    my $colorer = Text::EmacsColor->new( emacs_command => 'emacsclient --eval' );
+
+=head1 TODO
+
+docs, split returned CSS and HTML into easily-usable data-structures,
+auto-detect running emacs and use it
+
+=head1 REPOSITORY
+
+    $ git clone git://git.jrock.us/Text-EmacsColor
+
+=head1 SEE ALSO
+
+L<Text::VimColor|Text::VimColor>
+
+Emacs' highlighting is way better, but this is where I got the name
+from.
+
+=head1 AUTHOR
+
+Jonathan Rockway C<< <jrockway@cpan.org> >>
+
+=head1 COPYRIGHT
+
+Copyright 2008 Jonathan Rockway
+
+This module is Free Software, you may redistribute it under the same
+terms as Perl itself.
