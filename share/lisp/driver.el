@@ -15,5 +15,4 @@
       (with-current-buffer (htmlize-buffer-1)
         (prog1
             (buffer-substring-no-properties (point-min) (point-max))
-          (kill-buffer))))))
-
+          (kill-buffer (current-buffer)))))))

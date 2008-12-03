@@ -1,16 +1,10 @@
 use strict;
 use warnings;
-use Test::More;
-
-BEGIN {
-    my $emacses = `pidof emacs`;
-    plan skip_all => 'You need a running emacs to run these tests.'
-      if !$emacses;
-
-    plan tests => 2;
-}
+use Test::More tests => 2;
 
 use Text::EmacsColor;
+
+diag `emacs --version`; # for the CPAN testers
 
 my $colorer = Text::EmacsColor->new;
 ok $colorer;
