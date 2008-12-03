@@ -13,4 +13,6 @@ build_requires 'ok';
 
 install_share 'share';
 
+requires_external_bin 'emacs';
+
 WriteAll();
