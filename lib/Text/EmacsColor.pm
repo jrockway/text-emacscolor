@@ -3,6 +3,7 @@ use Mouse;
 use File::Temp;
 use Path::Class;
 use File::ShareDir;
+use Text::EmacsColor::Result;
 
 sub dist_file(@) {
     return File::ShareDir::dist_file('Text-EmacsColor', file(@_)->stringify);
@@ -48,7 +49,7 @@ sub format {
         '"' => '"',
     );
     $html =~ s/\\(.)/$fixes{$1}/g;
-    return $html;
+    return Text::EmacsColor::Result->new( full_html => $html );
 }
 
 1;

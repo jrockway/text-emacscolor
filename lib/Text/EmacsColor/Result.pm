@@ -1,5 +1,16 @@
 package Text::EmacsColor::Result;
 use Mouse;
+use List::Util qw(first);
+
+# See below for lazily-loaded dependencies
+
+use overload (
+    q{""} => sub {
+        my $self = shift;
+        return $self->full_html;
+    },
+    fallback => 'that would be good',
+);
 
 has 'full_html' => (
     is       => 'ro',
@@ -9,7 +20,7 @@ has 'full_html' => (
 
 has 'html_dom' => (
     is         => 'ro',
-    isa        => 'HTML::TreeBuilder',
+    isa        => 'XML::LibXML::Document',
     lazy_build => 1,
 );
 
@@ -19,31 +30,30 @@ has 'css' => (
     lazy_build => 1,
 );
 
-has 'html_body' => (
-    is         => 'ro',
-    isa        => 'HTML::TreeBuilder',
-    lazy_build => 1,
-);
-
 sub _build_html_dom {
     my $self = shift;
+    eval { require XML::LibXML } or
+      confess 'To get the DOM, you must install XML::LibXML';
+    my $dom = XML::LibXML->new->parse_html_string( $self->full_html );
+    return $dom;
+}
 
-    my $t = HTML::TreeBuilder->new;
-    $t->parse($self->full_html);
-    $t->eof;
-    return $t;
+sub _extract_style {
+    my $self = shift;
+    my $doc = $self->html_dom;
+    my $style = eval {
+        my $html = $doc->documentElement;
+        my $head = first { $_->nodeName eq 'head' } $html->childNodes;
+        my $s = first { $_->nodeName eq 'style' } $head->childNodes;
+        return $s->textContent;
+    };
 }
 
 sub _build_css {
     my $self = shift;
-}
-
-sub DEMOLISH {
-    my $self = shift;
-    if($self->has_html_dom){
-        # hi.  i'm HTML::TreeBuilder, and I'm retarded!
-        $self->html_dom->delete;
-    }
+    eval { require CSS::Tiny } or
+      confess 'To get the CSS, you must install CSS::Tiny';
+    return CSS::Tiny->read_string( $self->_extract_style );
 }
 
 1;

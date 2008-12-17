@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 use Text::EmacsColor;
 
@@ -14,4 +14,5 @@ my $html = $colorer->format(
     'lisp',
 );
 
-like $html, qr/<span class="builtin">/;
+isa_ok $html, 'Text::EmacsColor::Result';
+like $html, qr/<span class="builtin">:foo/;
