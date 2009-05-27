@@ -57,3 +57,30 @@ sub _build_css {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+Text::EmacsColor::Result - represents HTML-ified text
+
+=head1 METHODS
+
+=head2 full_html
+
+The entire HTML file returned by emacs, in string form.
+
+=head2 css
+
+A L<CSS::Tiny|CSS::Tiny> object representing the CSS style information
+returned by emacs.
+
+=head2 html_dom
+
+An L<XML::LibXML::Document|XML::LibXML::Document> object representing
+the HTML returned by emacs.  (You can use C<html_dom> and C<css> to
+reformat the result as something other than XML.)
+
+=head1 SEE ALSO
+
+See L<Text::EmacsColor> for more information.

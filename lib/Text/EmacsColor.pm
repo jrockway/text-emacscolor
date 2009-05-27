@@ -11,7 +11,7 @@ sub dist_file(@) {
 
 use namespace::clean -except => 'meta';
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 has 'emacs_command' => (
     is         => 'ro',
@@ -74,14 +74,18 @@ or pass other options to emacs, specify the emacs_command initarg:
 
     my $colorer = Text::EmacsColor->new( emacs_command => 'emacsclient --eval' );
 
+Note that C<$html>, the return value of C<format>, is an instance of
+L<Text::EmacsColor::Result|Text::EmacsColor::Result>.  It stringifies
+to the HTML-ified text that emacs returns, but also provides other
+functionality.  See L<Text::EmacsColor::Result> for more details.
+
 =head1 TODO
 
-docs, split returned CSS and HTML into easily-usable data-structures,
 auto-detect running emacs and use it
 
 =head1 REPOSITORY
 
-    $ git clone git://git.jrock.us/Text-EmacsColor
+L<http://github.com/jrockway/text-emacscolor>
 
 =head1 SEE ALSO
 
@@ -89,6 +93,9 @@ L<Text::VimColor|Text::VimColor>
 
 Emacs' highlighting is way better, but this is where I got the name
 from.
+
+My C<cperl-mode> is the most up-to-date Perl highligher for emacs; get
+it from L<http://github.com/jrockway/cperl-mode>.
 
 =head1 AUTHOR
 
