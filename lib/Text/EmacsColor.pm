@@ -47,6 +47,7 @@ sub format {
     my %fixes = (
         n   => "\n",
         '"' => '"',
+        "\\" => "\\",
     );
     $html =~ s/\\(.)/$fixes{$1}/g;
     return Text::EmacsColor::Result->new( full_html => $html );

@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More tests => 5;
 
 use Text::EmacsColor;
 
@@ -16,3 +16,12 @@ my $html = $colorer->format(
 
 isa_ok $html, 'Text::EmacsColor::Result';
 like $html, qr/<span class="builtin">:foo/;
+
+# bug 'my $str = "Hello\n";' is converted to 'my $str = "Hellon";'
+$html = $colorer->format(
+    'my $str = "Hello\n"',
+    'cperl',
+);
+
+isa_ok $html, 'Text::EmacsColor::Result';
+like $html, qr/<span class="string">"Hello\\n"/;
